@@ -125,7 +125,7 @@ const GoalProjectionModal: React.FC<GoalProjectionModalProps> = ({ goalId, onClo
         },
         callbacks: {
           label: (context) => {
-            const value = context.parsed.y
+            const value = context.parsed.y ?? 0
             return `${context.dataset.label}: ${formatCurrency(value)}`
           },
         },

@@ -209,7 +209,8 @@ const RangeInsightsModal: React.FC<RangeInsightsModalProps> = ({ open, onClose }
         },
         callbacks: {
           label: (context) => {
-            return `${context.dataset.label}: ${formatCurrency(context.parsed.y)}`
+            const value = context.parsed.y ?? 0
+            return `${context.dataset.label}: ${formatCurrency(value)}`
           },
         },
       },
@@ -275,7 +276,8 @@ const RangeInsightsModal: React.FC<RangeInsightsModalProps> = ({ open, onClose }
         bodyColor: '#e2e8f0',
         callbacks: {
           label: (context) => {
-            return `Total: ${formatCurrency(context.parsed.x)}`
+            const value = context.parsed.x ?? 0
+            return `Total: ${formatCurrency(value)}`
           },
         },
       },
