@@ -1,0 +1,10 @@
+{
+  "name": "budget-coach",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": ["frontend", "backend"],
+  "scripts": {
+    "frontend": "npm --prefix frontend run dev",
+    "backend": "uvicorn backend.app.main:app --reload"
+  }
+}
