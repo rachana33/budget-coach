@@ -92,9 +92,6 @@ See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed instructions on deploying to R
 4. **Track recurring expenses**: Add subscriptions and regular bills
 5. **Get AI insights**: Click "Get Coach Insights" for personalized advice
 
-## 📸 Screenshots
-
-*Add screenshots of your application here*
 
 ## 🔒 Security
 
@@ -111,12 +108,6 @@ This is a personal portfolio project, but suggestions and feedback are welcome!
 
 MIT License - feel free to use this project for learning purposes.
 
-## 👤 Author
-
-**Your Name**
-- Portfolio: [your-portfolio.com](https://your-portfolio.com)
-- LinkedIn: [your-linkedin](https://linkedin.com/in/your-profile)
-- GitHub: [@your-username](https://github.com/your-username)
 
 ## 🙏 Acknowledgments
 
