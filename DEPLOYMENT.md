@@ -33,7 +33,14 @@ This guide will help you deploy your Budget Coach application to Render with pub
    - `OPENAI_API_KEY`: Your OpenAI API key
    - `OPENAI_MODEL`: `gpt-4o-mini` (already set)
 
+> **Note:** The Blueprint will automatically:
+> - create the database
+> - link the database to the backend
+> - link the backend URL to the frontend
+> - seed the database with sample data
+
 ### Option B: Deploy Services Manually
+(Not recommended - The blueprint handles all connections automatically)
 
 #### Deploy Backend:
 1. Click **"New"** → **"Web Service"**
@@ -74,12 +81,9 @@ After deployment completes (5-10 minutes):
 - **Frontend URL**: `https://budget-coach-frontend.onrender.com`
 - **Backend API**: `https://budget-coach-api.onrender.com`
 
-## Step 4: Add Sample Data (Optional)
+## Step 4: Sample Data (Automated)
 
-Since you're starting with a fresh PostgreSQL database, you may want to add sample data:
-
-1. Use the frontend UI to manually add accounts, transactions, and goals
-2. Or create a data seeding script
+The deployment is configured to automatically check for existing data. If the database is empty, it will automatically populate it with sample accounts, transactions, and goals so you can see the app in action immediately!
 
 ## Important Notes
 

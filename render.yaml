@@ -5,6 +5,7 @@ services:
     runtime: python
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn backend.app.main:app --host 0.0.0.0 --port $PORT
+    preDeployCommand: python -m backend.seed_data
     envVars:
       - key: PYTHON_VERSION
         value: 3.12.0
@@ -14,20 +15,25 @@ services:
         value: gpt-4o-mini
       - key: DATABASE_URL
         fromDatabase:
-          name: budget-coach-db
+          name: budget_coach_db
           property: connectionString
 
+staticSites:
   # Frontend
-  - type: web
-    name: budget-coach-frontend
+  - name: budget-coach-frontend
     runtime: node
     buildCommand: cd frontend && npm install && npm run build
-    staticPublishPath: ./frontend/dist
+    publishPath: ./frontend/dist
     envVars:
       - key: NODE_VERSION
         value: 20.11.0
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: budget-coach-api
+          property: url
 
 databases:
-  - name: budget-coach-db
+  - name: budget_coach_db
     databaseName: budget_coach
     user: budget_coach_user
