@@ -19,8 +19,9 @@ services:
           property: connectionString
 
   # Frontend
-  - type: static_site
+  - type: web
     name: budget-coach-frontend
+    runtime: static
     buildCommand: cd frontend && npm install && npm run build
     staticPublishPath: ./frontend/dist
     envVars:
