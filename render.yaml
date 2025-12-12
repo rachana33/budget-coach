@@ -3,6 +3,7 @@ services:
   - type: web
     name: budget-coach-api
     runtime: python
+    plan: free
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn backend.app.main:app --host 0.0.0.0 --port $PORT
     preDeployCommand: python -m backend.seed_data
@@ -37,3 +38,4 @@ databases:
   - name: budget_coach_db
     databaseName: budget_coach
     user: budget_coach_user
+    plan: free
