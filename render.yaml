@@ -18,12 +18,11 @@ services:
           name: budget_coach_db
           property: connectionString
 
-staticSites:
   # Frontend
-  - name: budget-coach-frontend
-    runtime: node
+  - type: static_site
+    name: budget-coach-frontend
     buildCommand: cd frontend && npm install && npm run build
-    publishPath: ./frontend/dist
+    staticPublishPath: ./frontend/dist
     envVars:
       - key: NODE_VERSION
         value: 20.11.0
@@ -31,7 +30,7 @@ staticSites:
         fromService:
           type: web
           name: budget-coach-api
-          property: url
+          envVarKey: url
 
 databases:
   - name: budget_coach_db
