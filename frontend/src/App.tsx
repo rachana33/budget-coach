@@ -11,6 +11,15 @@ import {
   Transaction,
   TransactionCreateInput,
 } from './types'
+import {
+  MOCK_ACCOUNTS,
+  MOCK_COACH,
+  MOCK_GOALS,
+  MOCK_MICRO_HABITS,
+  MOCK_OVERVIEW,
+  MOCK_RECURRING,
+  MOCK_TRANSACTIONS,
+} from './mockData'
 import Dashboard from './components/Dashboard'
 import SetupPanel from './components/SetupPanel'
 import TransactionPanel from './components/TransactionPanel'
@@ -31,22 +40,23 @@ type CategoryLimitMap = Record<string, { label: string; amount: number }>
 
 const App: React.FC = () => {
   const [month, setMonth] = useState<string>(DEFAULT_MONTH)
-  const [accounts, setAccounts] = useState<Account[]>([])
-  const [recurringExpenses, setRecurringExpenses] = useState<RecurringExpense[]>([])
-  const [transactions, setTransactions] = useState<Transaction[]>([])
-  const [overview, setOverview] = useState<MonthlyOverview | null>(null)
-  const [microHabits, setMicroHabits] = useState<MicroHabitsResponse | null>(null)
-  const [coach, setCoach] = useState<CoachResponseType>(null)
+  const [accounts, setAccounts] = useState<Account[]>(MOCK_ACCOUNTS)
+  const [recurringExpenses, setRecurringExpenses] = useState<RecurringExpense[]>(MOCK_RECURRING)
+  const [transactions, setTransactions] = useState<Transaction[]>(MOCK_TRANSACTIONS)
+  const [overview, setOverview] = useState<MonthlyOverview | null>(MOCK_OVERVIEW)
+  const [microHabits, setMicroHabits] = useState<MicroHabitsResponse | null>(MOCK_MICRO_HABITS)
+  const [coach, setCoach] = useState<CoachResponseType>(MOCK_COACH)
   const [loadingCoach, setLoadingCoach] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [coachVisible, setCoachVisible] = useState(false)
   const [categoryLimits, setCategoryLimits] = useState<CategoryLimitMap>({})
   const [addDataOpen, setAddDataOpen] = useState(false)
   const [modalType, setModalType] = useState<'account' | 'recurring' | 'transaction' | 'limit' | 'goals' | null>(null)
-  const [goals, setGoals] = useState<Goal[]>([])
+  const [goals, setGoals] = useState<Goal[]>(MOCK_GOALS)
   const [projectionGoalId, setProjectionGoalId] = useState<number | null>(null)
   const [rangeInsightsOpen, setRangeInsightsOpen] = useState(false)
   const [activeTab, setActiveTab] = useState<'dashboard' | 'profile'>('dashboard')
+  const [isDemoMode, setIsDemoMode] = useState(true)
 
   const monthLabel = useMemo(() => {
     const date = new Date(`${month}-01T00:00:00`)
@@ -124,7 +134,9 @@ const App: React.FC = () => {
     } catch (err: any) {
       console.error('coach error', err)
       setError(err?.response?.data?.detail ?? 'Failed to fetch coach response')
-      setCoach(null)
+      if (!isDemoMode) {
+        setCoach(null)
+      }
     } finally {
       setLoadingCoach(false)
     }
@@ -144,10 +156,11 @@ const App: React.FC = () => {
     Promise.all([refreshAll(month), fetchGoals()])
       .then(() => {
         setError(null)
+        setIsDemoMode(false)
       })
       .catch((err) => {
         console.error('month change failed', err)
-        setError('Failed to load data')
+        setError('Backend unavailable. Using demo data.')
       })
   }, [month])
 
@@ -276,27 +289,33 @@ const App: React.FC = () => {
           <div className="flex items-center gap-2">
             <button
               onClick={() => setActiveTab('dashboard')}
-              className={`rounded-md px-4 py-2 text-sm font-semibold transition ${
-                activeTab === 'dashboard'
-                  ? 'bg-brand-500 text-white'
-                  : 'border border-slate-700 text-slate-300 hover:bg-slate-800'
-              }`}
+              className={`rounded-md px-4 py-2 text-sm font-semibold transition ${activeTab === 'dashboard'
+                ? 'bg-brand-500 text-white'
+                : 'border border-slate-700 text-slate-300 hover:bg-slate-800'
+                }`}
             >
               Dashboard
             </button>
             <button
               onClick={() => setActiveTab('profile')}
-              className={`rounded-md px-4 py-2 text-sm font-semibold transition ${
-                activeTab === 'profile'
-                  ? 'bg-brand-500 text-white'
-                  : 'border border-slate-700 text-slate-300 hover:bg-slate-800'
-              }`}
+              className={`rounded-md px-4 py-2 text-sm font-semibold transition ${activeTab === 'profile'
+                ? 'bg-brand-500 text-white'
+                : 'border border-slate-700 text-slate-300 hover:bg-slate-800'
+                }`}
             >
               Profile
             </button>
           </div>
         </div>
       </header>
+
+      {isDemoMode && (
+        <div className="bg-indigo-900/30 border-b border-indigo-500/30 px-6 py-2">
+          <div className="mx-auto max-w-7xl flex items-center justify-between text-xs text-indigo-200">
+            <span>Viewing Sample Data • Connecting to backend...</span>
+          </div>
+        </div>
+      )}
 
       {error && (
         <div className="mx-auto mt-4 max-w-7xl px-6">
