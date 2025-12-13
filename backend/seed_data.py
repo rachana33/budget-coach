@@ -33,20 +33,20 @@ def seed_database():
         print("Seeding database with sample data...")
         
         # Create accounts
-        checking = models.Account(name="Chase Checking", balance=3500.00, account_type="checking")
-        savings = models.Account(name="Ally Savings", balance=15000.00, account_type="savings")
-        credit = models.Account(name="Chase Sapphire", balance=-850.00, account_type="credit")
+        checking = models.Account(name="Chase Checking", type="bank", issuer="Chase")
+        savings = models.Account(name="Ally Savings", type="bank", issuer="Ally")
+        credit = models.Account(name="Chase Sapphire", type="card", issuer="Chase", credit_limit=10000.00)
         
         db.add_all([checking, savings, credit])
         db.commit()
         
         # Create recurring expenses
         recurring = [
-            models.RecurringExpense(name="Netflix", amount=15.99, frequency="monthly", category="entertainment"),
-            models.RecurringExpense(name="Spotify", amount=10.99, frequency="monthly", category="entertainment"),
-            models.RecurringExpense(name="Gym Membership", amount=45.00, frequency="monthly", category="health"),
-            models.RecurringExpense(name="Internet", amount=79.99, frequency="monthly", category="utilities"),
-            models.RecurringExpense(name="Phone Bill", amount=65.00, frequency="monthly", category="utilities"),
+            models.RecurringExpense(name="Netflix", amount=15.99, billing_cycle="monthly", category="entertainment"),
+            models.RecurringExpense(name="Spotify", amount=10.99, billing_cycle="monthly", category="entertainment"),
+            models.RecurringExpense(name="Gym Membership", amount=45.00, billing_cycle="monthly", category="health"),
+            models.RecurringExpense(name="Internet", amount=79.99, billing_cycle="monthly", category="utilities"),
+            models.RecurringExpense(name="Phone Bill", amount=65.00, billing_cycle="monthly", category="utilities"),
         ]
         db.add_all(recurring)
         db.commit()
@@ -56,75 +56,75 @@ def seed_database():
         transactions = [
             # Income
             models.Transaction(date=base_date + timedelta(days=1), description="Salary Deposit", amount=4500.00, 
-                             category="income", account_id=checking.id, transaction_type="income"),
+                             category="income", account_id=checking.id),
             models.Transaction(date=base_date + timedelta(days=15), description="Freelance Project", amount=800.00, 
-                             category="income", account_id=checking.id, transaction_type="income"),
+                             category="income", account_id=checking.id),
             
             # Groceries
             models.Transaction(date=base_date + timedelta(days=2), description="Whole Foods", amount=-125.50, 
-                             category="groceries", account_id=credit.id, transaction_type="expense"),
+                             category="groceries", account_id=credit.id),
             models.Transaction(date=base_date + timedelta(days=9), description="Trader Joe's", amount=-87.25, 
-                             category="groceries", account_id=credit.id, transaction_type="expense"),
+                             category="groceries", account_id=credit.id),
             models.Transaction(date=base_date + timedelta(days=16), description="Safeway", amount=-102.80, 
-                             category="groceries", account_id=credit.id, transaction_type="expense"),
+                             category="groceries", account_id=credit.id),
             models.Transaction(date=base_date + timedelta(days=23), description="Whole Foods", amount=-134.20, 
-                             category="groceries", account_id=credit.id, transaction_type="expense"),
+                             category="groceries", account_id=credit.id),
             
             # Dining
             models.Transaction(date=base_date + timedelta(days=3), description="Starbucks", amount=-6.50, 
-                             category="dining", account_id=credit.id, transaction_type="expense"),
+                             category="dining", account_id=credit.id),
             models.Transaction(date=base_date + timedelta(days=5), description="Chipotle", amount=-12.75, 
-                             category="dining", account_id=credit.id, transaction_type="expense"),
+                             category="dining", account_id=credit.id),
             models.Transaction(date=base_date + timedelta(days=7), description="Starbucks", amount=-7.25, 
-                             category="dining", account_id=credit.id, transaction_type="expense"),
+                             category="dining", account_id=credit.id),
             models.Transaction(date=base_date + timedelta(days=10), description="Local Restaurant", amount=-45.80, 
-                             category="dining", account_id=credit.id, transaction_type="expense"),
+                             category="dining", account_id=credit.id),
             models.Transaction(date=base_date + timedelta(days=12), description="Starbucks", amount=-6.50, 
-                             category="dining", account_id=credit.id, transaction_type="expense"),
+                             category="dining", account_id=credit.id),
             models.Transaction(date=base_date + timedelta(days=14), description="Pizza Place", amount=-28.50, 
-                             category="dining", account_id=credit.id, transaction_type="expense"),
+                             category="dining", account_id=credit.id),
             models.Transaction(date=base_date + timedelta(days=17), description="Starbucks", amount=-8.00, 
-                             category="dining", account_id=credit.id, transaction_type="expense"),
+                             category="dining", account_id=credit.id),
             models.Transaction(date=base_date + timedelta(days=20), description="Sushi Restaurant", amount=-52.30, 
-                             category="dining", account_id=credit.id, transaction_type="expense"),
+                             category="dining", account_id=credit.id),
             
             # Transportation
             models.Transaction(date=base_date + timedelta(days=4), description="Gas Station", amount=-45.00, 
-                             category="transportation", account_id=credit.id, transaction_type="expense"),
+                             category="transportation", account_id=credit.id),
             models.Transaction(date=base_date + timedelta(days=11), description="Uber", amount=-18.50, 
-                             category="transportation", account_id=credit.id, transaction_type="expense"),
+                             category="transportation", account_id=credit.id),
             models.Transaction(date=base_date + timedelta(days=18), description="Gas Station", amount=-48.75, 
-                             category="transportation", account_id=credit.id, transaction_type="expense"),
+                             category="transportation", account_id=credit.id),
             
             # Entertainment
             models.Transaction(date=base_date + timedelta(days=6), description="Movie Tickets", amount=-32.00, 
-                             category="entertainment", account_id=credit.id, transaction_type="expense"),
+                             category="entertainment", account_id=credit.id),
             models.Transaction(date=base_date + timedelta(days=13), description="Concert Tickets", amount=-85.00, 
-                             category="entertainment", account_id=credit.id, transaction_type="expense"),
+                             category="entertainment", account_id=credit.id),
             models.Transaction(date=base_date + timedelta(days=8), description="Netflix", amount=-15.99, 
-                             category="entertainment", account_id=credit.id, transaction_type="expense"),
+                             category="entertainment", account_id=credit.id),
             models.Transaction(date=base_date + timedelta(days=8), description="Spotify", amount=-10.99, 
-                             category="entertainment", account_id=credit.id, transaction_type="expense"),
+                             category="entertainment", account_id=credit.id),
             
             # Utilities
             models.Transaction(date=base_date + timedelta(days=1), description="Electric Bill", amount=-120.50, 
-                             category="utilities", account_id=checking.id, transaction_type="expense"),
+                             category="utilities", account_id=checking.id),
             models.Transaction(date=base_date + timedelta(days=5), description="Internet", amount=-79.99, 
-                             category="utilities", account_id=checking.id, transaction_type="expense"),
+                             category="utilities", account_id=checking.id),
             models.Transaction(date=base_date + timedelta(days=10), description="Phone Bill", amount=-65.00, 
-                             category="utilities", account_id=checking.id, transaction_type="expense"),
+                             category="utilities", account_id=checking.id),
             
             # Health
             models.Transaction(date=base_date + timedelta(days=15), description="Gym Membership", amount=-45.00, 
-                             category="health", account_id=checking.id, transaction_type="expense"),
+                             category="health", account_id=checking.id),
             models.Transaction(date=base_date + timedelta(days=22), description="Pharmacy", amount=-25.80, 
-                             category="health", account_id=credit.id, transaction_type="expense"),
+                             category="health", account_id=credit.id),
             
             # Shopping
             models.Transaction(date=base_date + timedelta(days=19), description="Amazon", amount=-67.45, 
-                             category="shopping", account_id=credit.id, transaction_type="expense"),
+                             category="shopping", account_id=credit.id),
             models.Transaction(date=base_date + timedelta(days=21), description="Target", amount=-89.20, 
-                             category="shopping", account_id=credit.id, transaction_type="expense"),
+                             category="shopping", account_id=credit.id),
         ]
         
         db.add_all(transactions)
@@ -132,12 +132,12 @@ def seed_database():
         
         # Create goals
         goals = [
-            models.Goal(name="Emergency Fund", target_amount=10000.00, current_amount=5000.00, 
-                       target_date=datetime(2026, 6, 1), priority=1, desired_monthly=500.00),
-            models.Goal(name="Vacation to Japan", target_amount=5000.00, current_amount=1200.00, 
-                       target_date=datetime(2026, 3, 1), priority=2, desired_monthly=400.00),
-            models.Goal(name="New Laptop", target_amount=2000.00, current_amount=800.00, 
-                       target_date=datetime(2025, 12, 31), priority=3, desired_monthly=300.00),
+            models.Goal(title="Emergency Fund", target_amount=10000.00, current_progress=5000.00, 
+                       goal_type="purchase", target_date=datetime(2026, 6, 1), priority=1, desired_monthly=500.00),
+            models.Goal(title="Vacation to Japan", target_amount=5000.00, current_progress=1200.00, 
+                       goal_type="purchase", target_date=datetime(2026, 3, 1), priority=2, desired_monthly=400.00),
+            models.Goal(title="New Laptop", target_amount=2000.00, current_progress=800.00, 
+                       goal_type="purchase", target_date=datetime(2025, 12, 31), priority=3, desired_monthly=300.00),
         ]
         
         db.add_all(goals)
