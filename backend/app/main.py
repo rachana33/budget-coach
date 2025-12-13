@@ -37,7 +37,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(title="Budget Coach & Tracker", lifespan=lifespan)
 
-# CORS configuration for production
+# CORS configuration - allows all origins for demo purposes
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  # In production, replace with your frontend URL
