@@ -9,7 +9,7 @@ load_dotenv()
 
 
 class Settings(BaseSettings):
-    openai_api_key: str = Field(..., alias="OPENAI_API_KEY")
+    openai_api_key: str = Field("", alias="OPENAI_API_KEY")
     openai_model: str = Field("gpt-4o-mini", alias="OPENAI_MODEL")
 
     class Config:

@@ -81,6 +81,14 @@ def generate_coach_response(
     micro_habits = find_micro_habits(db, month)
 
     settings = get_settings()
+    
+    # Check if API key is configured
+    if not settings.openai_api_key:
+        raise HTTPException(
+            status_code=503,
+            detail="AI coach feature is not available. OpenAI API key is not configured."
+        )
+    
     client = OpenAI(api_key=settings.openai_api_key)
 
     prompt = _format_prompt(overview, micro_habits)
