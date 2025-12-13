@@ -31,7 +31,7 @@ services:
         fromService:
           type: web
           name: budget-coach-api
-          envVarKey: url
+          envVarKey: RENDER_EXTERNAL_URL
 
 databases:
   - name: budget_coach_db
