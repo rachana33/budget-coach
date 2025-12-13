@@ -20,7 +20,7 @@ services:
 
   # Frontend
   - type: web
-    name: budget-coach-frontend
+    name: budget-coach-ft
     runtime: static
     buildCommand: cd frontend && npm install && npm run build
     staticPublishPath: ./frontend/dist
